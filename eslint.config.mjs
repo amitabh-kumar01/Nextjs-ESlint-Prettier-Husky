@@ -1,16 +1,88 @@
-import { dirname } from "path";
-import { fileURLToPath } from "url";
-import { FlatCompat } from "@eslint/eslintrc";
+// @ts-check
+import eslint from '@eslint/js';
+import tseslint from '@typescript-eslint/eslint-plugin';
+import tseslintParser from '@typescript-eslint/parser';
+import nextPlugin from '@next/eslint-plugin-next';
+import reactPlugin from 'eslint-plugin-react';
+import reactHooksPlugin from 'eslint-plugin-react-hooks';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+export default [
+  {
+    ignores: ['node_modules/*', '.next/*', 'build/*', 'public/*', 'dist/*'],
+  },
+  {
+    files: ['**/*.{js,jsx,ts,tsx,mjs}'],
+    ...eslint.configs.recommended,
+  },
+  {
+    files: ['**/*.{js,jsx,ts,tsx,mjs}'],
+    plugins: {
+      '@typescript-eslint': tseslint,
+      react: reactPlugin,
+      'react-hooks': reactHooksPlugin,
+      '@next/next': nextPlugin,
+    },
+    languageOptions: {
+      ecmaVersion: 'latest',
+      sourceType: 'module',
+      parser: tseslintParser,
+      parserOptions: {
+        project: './tsconfig.eslint.json',
+        ecmaFeatures: {
+          jsx: true,
+        },
+      },
+      globals: {
+        console: 'readonly',
+        window: 'readonly',
+        document: 'readonly',
+        process: 'readonly',
+        module: 'readonly',
+        require: 'readonly',
+      },
+    },
+    settings: {
+      react: {
+        version: 'detect',
+      },
+      next: {
+        rootDir: '.',
+      },
+    },
+    rules: {
+      semi: ['error', 'always'],
+      // Next.js rules
+      '@next/next/no-html-link-for-pages': 'error',
+      '@next/next/no-img-element': 'warn',
+      '@next/next/no-unwanted-polyfillio': 'warn',
 
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-});
+      // React rules
+      'react/react-in-jsx-scope': 'off',
+      'react/prop-types': 'off',
+      'react-hooks/rules-of-hooks': 'error',
+      'react-hooks/exhaustive-deps': 'warn',
 
-const eslintConfig = [
-  ...compat.extends("next/core-web-vitals", "next/typescript"),
+      // TypeScript rules
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        {
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+        },
+      ],
+      '@typescript-eslint/no-explicit-any': 'error',
+      '@typescript-eslint/explicit-function-return-type': 'off',
+      '@typescript-eslint/explicit-module-boundary-types': 'off',
+      '@typescript-eslint/no-non-null-assertion': 'warn',
+
+      // General rules
+      'no-console': ['warn', { allow: ['warn', 'error'] }],
+    },
+  },
+  {
+    files: ['*.js', '*.mjs'],
+    rules: {
+      '@typescript-eslint/no-var-requires': 'off',
+    },
+  },
 ];
-
-export default eslintConfig;
