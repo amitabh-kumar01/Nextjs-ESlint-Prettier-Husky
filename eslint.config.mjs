@@ -8,17 +8,17 @@ import reactHooksPlugin from 'eslint-plugin-react-hooks';
 
 export default [
   {
-    ignores: ['node_modules/*', '.next/*', 'build/*', 'public/*', 'dist/*'],
+    ignores: ['node_modules/*', '.next/*', 'build/*', 'public/*', 'dist/*']
   },
   {
     files: ['**/*.{js,jsx,ts,tsx,mjs}'],
-    ...eslint.configs.recommended,
+    ...eslint.configs.recommended
   },
   {
     files: ['**/*.{js,jsx,ts,tsx,mjs}'],
     plugins: {
       '@typescript-eslint': tseslint,
-      react: reactPlugin,
+      'react': reactPlugin,
       'react-hooks': reactHooksPlugin,
       '@next/next': nextPlugin,
     },
@@ -29,25 +29,38 @@ export default [
       parserOptions: {
         project: './tsconfig.eslint.json',
         ecmaFeatures: {
-          jsx: true,
-        },
+          jsx: true
+        }
       },
       globals: {
-        console: 'readonly',
+        // Browser globals
         window: 'readonly',
         document: 'readonly',
+        localStorage: 'readonly',
+        sessionStorage: 'readonly',
+        setTimeout: 'readonly',
+        setInterval: 'readonly',
+        clearTimeout: 'readonly',
+        clearInterval: 'readonly',
+        console: 'readonly',
+        
+        // Node.js globals
         process: 'readonly',
         module: 'readonly',
         require: 'readonly',
-      },
+        
+        // React globals
+        React: 'readonly',
+        JSX: 'readonly'
+      }
     },
     settings: {
       react: {
-        version: 'detect',
+        version: 'detect'
       },
       next: {
-        rootDir: '.',
-      },
+        rootDir: '.'
+      }
     },
     rules: {
       semi: ['error', 'always'],
@@ -63,26 +76,23 @@ export default [
       'react-hooks/exhaustive-deps': 'warn',
 
       // TypeScript rules
-      '@typescript-eslint/no-unused-vars': [
-        'error',
-        {
-          argsIgnorePattern: '^_',
-          varsIgnorePattern: '^_',
-        },
-      ],
+      '@typescript-eslint/no-unused-vars': ['error', {
+        argsIgnorePattern: '^_',
+        varsIgnorePattern: '^_'
+      }],
       '@typescript-eslint/no-explicit-any': 'error',
       '@typescript-eslint/explicit-function-return-type': 'off',
       '@typescript-eslint/explicit-module-boundary-types': 'off',
       '@typescript-eslint/no-non-null-assertion': 'warn',
 
       // General rules
-      'no-console': ['warn', { allow: ['warn', 'error'] }],
-    },
+      'no-console': ['warn', { allow: ['warn', 'error'] }]
+    }
   },
   {
     files: ['*.js', '*.mjs'],
     rules: {
-      '@typescript-eslint/no-var-requires': 'off',
-    },
-  },
+      '@typescript-eslint/no-var-requires': 'off'
+    }
+  }
 ];
