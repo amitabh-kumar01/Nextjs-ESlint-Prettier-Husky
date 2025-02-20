@@ -4,7 +4,6 @@ import withBundleAnalyzer from '@next/bundle-analyzer';
 const nextConfig: NextConfig = {
   // ✅ Your existing config options
   reactStrictMode: true,
-  swcMinify: true,
 };
 
 export default withBundleAnalyzer({
