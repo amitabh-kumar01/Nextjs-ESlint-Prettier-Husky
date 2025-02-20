@@ -11,9 +11,16 @@
     "format": "prettier --write ."
   },
   "dependencies": {
+    "@next/bundle-analyzer": "^15.1.7",
+    "@reduxjs/toolkit": "^2.5.1",
+    "@sentry/nextjs": "^9.1.0",
+    "axios": "^1.7.9",
     "next": "15.1.7",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-redux": "^9.2.0",
+    "redux-thunk": "^3.1.0",
+    "zustand": "^5.0.3"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
